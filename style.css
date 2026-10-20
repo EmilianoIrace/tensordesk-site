@@ -15,3 +15,17 @@ p, li { color: var(--fg); }
 .muted { color: var(--muted); font-size: 15px; }
 .lang { border-top: 1px solid var(--line); margin-top: 40px; padding-top: 8px; }
 footer { border-top: 1px solid var(--line); margin-top: 48px; padding-top: 16px; font-size: 14px; color: var(--muted); }
+code { font: 15px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.formula { font-size: 18px; overflow-x: auto; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; }
+.calc { display: grid; gap: 10px; margin: 20px 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+.calc label { display: grid; gap: 4px; }
+.calc .arg { font-size: 15px; }
+.calc .in { display: flex; gap: 8px; align-items: center; }
+.calc input, .calc select { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+.calc input { flex: 1; min-width: 0; }
+.calc .result { display: flex; gap: 10px; align-items: baseline; margin: 6px 0 0; padding-top: 12px; border-top: 1px solid var(--line); }
+.calc .result output { font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.note { color: var(--muted); font-size: 15px; }
+.button { display: inline-block; padding: 10px 16px; border-radius: 10px; background: var(--accent); color: #fff; font-weight: 600; }
+.button:hover { text-decoration: none; opacity: .9; }
+ul { padding-left: 20px; }

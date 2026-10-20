@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Output speed of a gearbox – formula and calculator | TensorDesk</title>
+<meta name="description" content="Output speed of a gearbox. Formula n_m/i_g, with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/gear_speed/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Motors and drives</p>
+<h1>Output speed of a gearbox</h1>
+<p class="formula"><code>n_m/i_g</code></p>
+<form class="calc" data-n="2" onsubmit="return false">
+<label><span class="arg"><code>n_m</code> speed (rpm or rad/s)</span><span class="in"><input inputmode="decimal" value="1500" aria-label="n_m"><select aria-label="n_m unit"><option value="0.016666666666666666" selected>rpm</option><option value="0.15915494309189535">rad/s</option></select></span></label><label><span class="arg"><code>i_g</code> gear ratio (motor/wheel)</span><span class="in"><input inputmode="decimal" value="5" aria-label="i_g"><span class="u" data-f="1"></span></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="0.016666666666666666" selected>rpm</option><option value="0.15915494309189535">rad/s</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>gear_speed(n_m, i_g)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>gear_speed(1500 rpm, 5) = 300 rpm</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Velocità in uscita da un riduttore.</p><p lang="de">Abtriebsdrehzahl eines Getriebes.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../p_mech/"><code>p_mech</code> Mechanical power from force and speed.</a></li><li><a href="../e_rot/"><code>e_rot</code> Kinetic energy of a rotating mass.</a></li><li><a href="../nsync/"><code>nsync</code> Synchronous speed.</a></li><li><a href="../motor_slip/"><code>motor_slip</code> Induction-motor slip.</a></li><li><a href="../n_rotor/"><code>n_rotor</code> Rotor speed from slip.</a></li><li><a href="../rotor_freq/"><code>rotor_freq</code> Rotor current frequency.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => (a[0] / a[1]);
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

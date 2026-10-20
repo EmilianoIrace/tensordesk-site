@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Runtime from energy and power – formula and calculator | TensorDesk</title>
+<meta name="description" content="Runtime from energy and power. Formula E/P, with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/runtime_ep/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Batteries and energy</p>
+<h1>Runtime from energy and power</h1>
+<p class="formula"><code>E/P</code></p>
+<form class="calc" data-n="2" onsubmit="return false">
+<label><span class="arg"><code>E</code> energy</span><span class="in"><input inputmode="decimal" value="60" aria-label="E"><select aria-label="E unit"><option value="1e-06">µJ</option><option value="0.001">mJ</option><option value="1.0">J</option><option value="1000.0">kJ</option><option value="3600.0">Wh</option><option value="3600000.0" selected>kWh</option></select></span></label><label><span class="arg"><code>P</code> active power</span><span class="in"><input inputmode="decimal" value="15" aria-label="P"><select aria-label="P unit"><option value="0.001">mW</option><option value="1.0">W</option><option value="1000.0" selected>kW</option><option value="1000000.0">MW</option></select></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="1e-09">ns</option><option value="1e-06">µs</option><option value="0.001">ms</option><option value="1.0">s</option><option value="3600.0" selected>h</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>runtime_ep(E, P)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>runtime_ep(60 kWh, 15 kW) = 4 h</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Autonomia da energia e potenza.</p><p lang="de">Laufzeit aus Energie und Leistung.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../peukert/"><code>peukert</code> Runtime with Peukert&#x27;s law.</a></li><li><a href="../bat_energy/"><code>bat_energy</code> Battery energy.</a></li><li><a href="../bat_runtime/"><code>bat_runtime</code> Runtime at a constant current.</a></li><li><a href="../c_rate/"><code>c_rate</code> C-rate.</a></li><li><a href="../bat_vterm/"><code>bat_vterm</code> Terminal voltage under load.</a></li><li><a href="../bat_loss/"><code>bat_loss</code> Internal resistance loss.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => (a[0] / a[1]);
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

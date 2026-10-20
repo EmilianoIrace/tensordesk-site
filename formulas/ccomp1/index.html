@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Single-phase power-factor correction capacitor – formula and calculator | TensorDesk</title>
+<meta name="description" content="Single-phase power-factor correction capacitor. Formula Q/(2·π·f·V_rms^2), with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/ccomp1/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Three-phase and AC power</p>
+<h1>Single-phase power-factor correction capacitor</h1>
+<p class="formula"><code>Q/(2·π·f·V_rms^2)</code></p>
+<form class="calc" data-n="3" onsubmit="return false">
+<label><span class="arg"><code>Q</code> reactive power</span><span class="in"><input inputmode="decimal" value="1" aria-label="Q"><select aria-label="Q unit"><option value="1.0">var</option><option value="1000.0" selected>kvar</option></select></span></label><label><span class="arg"><code>V_rms</code> RMS voltage</span><span class="in"><input inputmode="decimal" value="230" aria-label="V_rms"><select aria-label="V_rms unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label><label><span class="arg"><code>f</code> frequency</span><span class="in"><input inputmode="decimal" value="50" aria-label="f"><select aria-label="f unit"><option value="1.0" selected>Hz</option><option value="1000.0">kHz</option><option value="1000000.0">MHz</option></select></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="1e-12">pF</option><option value="1e-09">nF</option><option value="1e-06" selected>µF</option><option value="0.001">mF</option><option value="1.0">F</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>ccomp1(Q, V_rms, f)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>ccomp1(1 kvar, 230 V, 50 Hz) = 60.17 µF</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Condensatore di rifasamento monofase.</p><p lang="de">Einphasiger Kompensationskondensator.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../peak/"><code>peak</code> Peak of a sine from its RMS value.</a></li><li><a href="../sinerms/"><code>sinerms</code> RMS of a sine from its peak.</a></li><li><a href="../vpp/"><code>vpp</code> Peak-to-peak of a sine from its RMS value.</a></li><li><a href="../vavg/"><code>vavg</code> Rectified average of a sine from its RMS value.</a></li><li><a href="../crest_factor/"><code>crest_factor</code> Crest factor.</a></li><li><a href="../formfactor/"><code>formfactor</code> Form factor.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => (a[0] / (((2 * Math.PI) * a[2]) * (a[1] ** 2)));
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

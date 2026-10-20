@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Average DC of a six-pulse bridge (1.35·V_LL·cos α) – formula and calculator | TensorDesk</title>
+<meta name="description" content="Average DC of a six-pulse bridge (1.35·V_LL·cos α). Formula 3·√(2)/π·V_LL·cos(alpha), with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/vdc6p/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Rectifiers and inverters</p>
+<h1>Average DC of a six-pulse bridge (1.35·V_LL·cos α)</h1>
+<p class="formula"><code>3·√(2)/π·V_LL·cos(alpha)</code></p>
+<form class="calc" data-n="2" onsubmit="return false">
+<label><span class="arg"><code>V_LL</code> line-to-line RMS voltage</span><span class="in"><input inputmode="decimal" value="400" aria-label="V_LL"><select aria-label="V_LL unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label><label><span class="arg"><code>alpha</code> firing angle (0 = diodes) <span class="muted">(optional)</span></span><span class="in"><input inputmode="decimal" value="30" aria-label="alpha"><select aria-label="alpha unit"><option value="0.017453292519943295" selected>°</option><option value="1.0">rad</option></select></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></p>
+</form>
+<p class="note">Ideal bridge in continuous conduction, no commutation overlap; leave α out for diodes.</p>
+<h2>In TensorDesk</h2>
+<p>Type <code>vdc6p(V_LL[, alpha])</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>vdc6p(400 V, 30 deg) = 467.8 V</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Tensione continua media del ponte esafase (1,35·V_LL·cos α).</p><p lang="de">Mittlere Gleichspannung einer B6-Brücke (1,35·V_LL·cos α).</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../vdc2p/"><code>vdc2p</code> Average DC of a single-phase full bridge (0.9·V·cos α).</a></li><li><a href="../vdc1h/"><code>vdc1h</code> Average DC of a half-wave rectifier.</a></li><li><a href="../vdc3p/"><code>vdc3p</code> Average DC of a three-pulse midpoint rectifier.</a></li><li><a href="../vdc12p/"><code>vdc12p</code> Average DC of a 12-pulse series bridge pair.</a></li><li><a href="../vdc6p_overlap/"><code>vdc6p_overlap</code> Six-pulse bridge DC with the commutation drop 3ωL_c·I_d/π.</a></li><li><a href="../iline6p/"><code>iline6p</code> Line RMS current of a six-pulse bridge with smooth DC.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => ((((3 * Math.sqrt(2)) / Math.PI) * a[0]) * Math.cos(a[1]));
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

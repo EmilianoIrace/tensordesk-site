@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buck-boost switch and diode voltage stress – formula and calculator | TensorDesk</title>
+<meta name="description" content="Buck-boost switch and diode voltage stress. Formula V_in + V_out, with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/bb_vsw/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">DC-DC converters</p>
+<h1>Buck-boost switch and diode voltage stress</h1>
+<p class="formula"><code>V_in + V_out</code></p>
+<form class="calc" data-n="2" onsubmit="return false">
+<label><span class="arg"><code>V_in</code> input voltage</span><span class="in"><input inputmode="decimal" value="12" aria-label="V_in"><select aria-label="V_in unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label><label><span class="arg"><code>V_out</code> output voltage</span><span class="in"><input inputmode="decimal" value="15" aria-label="V_out"><select aria-label="V_out unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>bb_vsw(V_in, V_out)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>bb_vsw(12 V, 15 V) = 27 V</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Tensione sull&#x27;interruttore e sul diodo del buck-boost.</p><p lang="de">Spannungsbelastung von Schalter und Diode des Hoch-Tiefsetzstellers.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../sepic_duty/"><code>sepic_duty</code> SEPIC duty cycle (CCM, ideal).</a></li><li><a href="../cuk_duty/"><code>cuk_duty</code> Ćuk duty cycle (|V_out|, CCM, ideal).</a></li><li><a href="../fly_duty/"><code>fly_duty</code> Flyback duty cycle (CCM).</a></li><li><a href="../fly_vout/"><code>fly_vout</code> Flyback output voltage (CCM).</a></li><li><a href="../fly_n/"><code>fly_n</code> Flyback turns ratio N_p/N_s for a duty cycle.</a></li><li><a href="../fly_lm/"><code>fly_lm</code> Maximum magnetising inductance for DCM at full load.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => (a[0] + a[1]);
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Usable capacitor energy between two voltages – formula and calculator | TensorDesk</title>
+<meta name="description" content="Usable capacitor energy between two voltages. Formula C·(V_1^2 - V_2^2)/2, with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/e_c_window/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Capacitors, RC/LC and filters</p>
+<h1>Usable capacitor energy between two voltages</h1>
+<p class="formula"><code>C·(V_1^2 - V_2^2)/2</code></p>
+<form class="calc" data-n="3" onsubmit="return false">
+<label><span class="arg"><code>C</code> capacitance</span><span class="in"><input inputmode="decimal" value="100" aria-label="C"><select aria-label="C unit"><option value="1e-12">pF</option><option value="1e-09">nF</option><option value="1e-06">µF</option><option value="0.001">mF</option><option value="1.0" selected>F</option></select></span></label><label><span class="arg"><code>V_1</code> start voltage</span><span class="in"><input inputmode="decimal" value="2.7" aria-label="V_1"><select aria-label="V_1 unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label><label><span class="arg"><code>V_2</code> end voltage</span><span class="in"><input inputmode="decimal" value="1.35" aria-label="V_2"><select aria-label="V_2 unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="1e-06">µJ</option><option value="0.001">mJ</option><option value="1.0" selected>J</option><option value="1000.0">kJ</option><option value="3600.0">Wh</option><option value="3600000.0">kWh</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>e_c_window(C, V_1, V_2)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>e_c_window(100 F, 2.7 V, 1.35 V) = 273.4 J</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Energia utilizzabile di un condensatore fra due tensioni.</p><p lang="de">Nutzbare Kondensatorenergie zwischen zwei Spannungen.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../tau_rc/"><code>tau_rc</code> RC time constant.</a></li><li><a href="../tau_rl/"><code>tau_rl</code> RL time constant.</a></li><li><a href="../fc_rc/"><code>fc_rc</code> RC filter cut-off frequency.</a></li><li><a href="../fc_rl/"><code>fc_rl</code> RL filter cut-off frequency.</a></li><li><a href="../c_for_fc/"><code>c_for_fc</code> Capacitance for an RC cut-off.</a></li><li><a href="../r_for_fc/"><code>r_for_fc</code> Resistance for an RC cut-off.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => ((a[0] * ((a[1] ** 2) - (a[2] ** 2))) / 2);
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward converter output voltage – formula and calculator | TensorDesk</title>
+<meta name="description" content="Forward converter output voltage. Formula V_in·D/n, with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/fwd_vout/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">DC-DC converters</p>
+<h1>Forward converter output voltage</h1>
+<p class="formula"><code>V_in·D/n</code></p>
+<form class="calc" data-n="3" onsubmit="return false">
+<label><span class="arg"><code>V_in</code> input voltage</span><span class="in"><input inputmode="decimal" value="48" aria-label="V_in"><select aria-label="V_in unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label><label><span class="arg"><code>D</code> duty cycle (fraction)</span><span class="in"><input inputmode="decimal" value="0.4" aria-label="D"><span class="u" data-f="1"></span></span></label><label><span class="arg"><code>n</code> turns ratio N_p/N_s</span><span class="in"><input inputmode="decimal" value="4" aria-label="n"><span class="u" data-f="1"></span></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>fwd_vout(V_in, D, n)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>fwd_vout(48 V, 0.4, 4) = 4.8 V</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Tensione di uscita del forward.</p><p lang="de">Ausgangsspannung des Durchflusswandlers.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../fwd_dmax/"><code>fwd_dmax</code> Forward maximum duty cycle with a reset winding.</a></li><li><a href="../fwd_vds/"><code>fwd_vds</code> Forward switch voltage with a reset winding.</a></li><li><a href="../fb_vout/"><code>fb_vout</code> Full-bridge (phase-shift) output, D ≤ 0.5 per diagonal.</a></li><li><a href="../hb_vout/"><code>hb_vout</code> Half-bridge output, D ≤ 0.5 per switch.</a></li><li><a href="../pp_vout/"><code>pp_vout</code> Push-pull output, D ≤ 0.5 per switch.</a></li><li><a href="../llc_fr/"><code>llc_fr</code> LLC series resonant frequency.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => ((a[0] * a[1]) / a[2]);
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

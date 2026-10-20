@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inverter line-to-line RMS with sine PWM – formula and calculator | TensorDesk</title>
+<meta name="description" content="Inverter line-to-line RMS with sine PWM. Formula m_a·√(3)/(2·√(2))·V_dc, with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/vspwm/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Rectifiers and inverters</p>
+<h1>Inverter line-to-line RMS with sine PWM</h1>
+<p class="formula"><code>m_a·√(3)/(2·√(2))·V_dc</code></p>
+<form class="calc" data-n="2" onsubmit="return false">
+<label><span class="arg"><code>V_dc</code> DC-link voltage</span><span class="in"><input inputmode="decimal" value="750" aria-label="V_dc"><select aria-label="V_dc unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></span></label><label><span class="arg"><code>m_a</code> modulation index, 1 = linear limit <span class="muted">(optional)</span></span><span class="in"><input inputmode="decimal" value="1" aria-label="m_a"><span class="u" data-f="1"></span></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></p>
+</form>
+<p class="note">Linear up to m_a = 1.</p>
+<h2>In TensorDesk</h2>
+<p>Type <code>vspwm(V_dc[, m_a])</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>vspwm(750 V) = 459.3 V</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Concatenata efficace dell&#x27;inverter con PWM sinusoidale.</p><p lang="de">Effektive Leiterspannung eines Wechselrichters mit Sinus-PWM.</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../vsvpwm/"><code>vsvpwm</code> Inverter line-to-line RMS with space-vector PWM.</a></li><li><a href="../inv_ma/"><code>inv_ma</code> Sine-PWM modulation index for a line voltage.</a></li><li><a href="../inv_vdcmin/"><code>inv_vdcmin</code> Minimum DC link for a line voltage with SVPWM.</a></li><li><a href="../inv_vdcmin_spwm/"><code>inv_vdcmin_spwm</code> Minimum DC link for a line voltage with sine PWM.</a></li><li><a href="../inv_iph/"><code>inv_iph</code> Inverter phase current for a motor power.</a></li><li><a href="../inv_mf/"><code>inv_mf</code> Frequency modulation ratio.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => (((a[1] * Math.sqrt(3)) / (2 * Math.sqrt(2))) * a[0]);
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>

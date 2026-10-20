@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Single-phase cable voltage drop (go and return) – formula and calculator | TensorDesk</title>
+<meta name="description" content="Single-phase cable voltage drop (go and return). Formula 2·I_rms·(R_c·pf + X_c·√(1 - pf^2)), with a free online calculator and units.">
+<link rel="canonical" href="https://emilianoirace.github.io/tensordesk-site/formulas/vdrop1/">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+<main>
+<nav><a href="../../">TensorDesk</a><a href="../">Formulas</a><a href="../../support/">Support</a></nav>
+<p class="muted">Three-phase and AC power</p>
+<h1>Single-phase cable voltage drop (go and return)</h1>
+<p class="formula"><code>2·I_rms·(R_c·pf + X_c·√(1 - pf^2))</code></p>
+<form class="calc" data-n="4" onsubmit="return false">
+<label><span class="arg"><code>I_rms</code> RMS current</span><span class="in"><input inputmode="decimal" value="16" aria-label="I_rms"><select aria-label="I_rms unit"><option value="1e-06">µA</option><option value="0.001">mA</option><option value="1.0" selected>A</option><option value="1000.0">kA</option></select></span></label><label><span class="arg"><code>R_c</code> conductor resistance (whole length)</span><span class="in"><input inputmode="decimal" value="0.2" aria-label="R_c"><select aria-label="R_c unit"><option value="0.001">mΩ</option><option value="1.0" selected>Ω</option><option value="1000.0">kΩ</option></select></span></label><label><span class="arg"><code>X_c</code> conductor reactance (whole length)</span><span class="in"><input inputmode="decimal" value="0.01" aria-label="X_c"><select aria-label="X_c unit"><option value="0.001">mΩ</option><option value="1.0" selected>Ω</option><option value="1000.0">kΩ</option></select></span></label><label><span class="arg"><code>pf</code> power factor cos φ</span><span class="in"><input inputmode="decimal" value="0.95" aria-label="pf"><span class="u" data-f="1"></span></span></label>
+<p class="result"><span>Result</span><output>—</output><select aria-label="result unit"><option value="0.001">mV</option><option value="1.0" selected>V</option><option value="1000.0">kV</option></select></p>
+</form>
+
+<h2>In TensorDesk</h2>
+<p>Type <code>vdrop1(I_rms, R_c, X_c, pf)</code> in the calculator or in a worksheet; units are checked and converted for you.</p>
+<p>Example: <code>vdrop1(16 A, 0.2 ohm, 0.01 ohm, 0.95) = 6.18 V</code></p>
+<p><a class="button" href="../../">Get TensorDesk for iPhone, iPad and Mac</a></p>
+<section class="lang"><p lang="it">Caduta di tensione di un cavo monofase (andata e ritorno).</p><p lang="de">Spannungsfall eines Wechselstromkabels (Hin- und Rückleiter).</p></section>
+<h2>Related formulas</h2>
+<ul><li><a href="../isc3/"><code>isc3</code> Three-phase short-circuit current.</a></li><li><a href="../isc_uk/"><code>isc_uk</code> Short-circuit current at a transformer&#x27;s terminals from u_k.</a></li><li><a href="../zbase/"><code>zbase</code> Base impedance of a per-unit system.</a></li><li><a href="../zpu/"><code>zpu</code> Impedance in per unit.</a></li><li><a href="../ploss3/"><code>ploss3</code> Copper loss of a three-phase line.</a></li><li><a href="../thd/"><code>thd</code> Total harmonic distortion from total and fundamental RMS.</a></li></ul>
+<footer>© 2026 Emiliano Irace · <a href="../">All formulas</a> · <a href="../../privacy/">Privacy</a></footer>
+</main>
+<script>
+const f = a => ((2 * a[0]) * ((a[1] * a[3]) + (a[2] * Math.sqrt((1 - (a[3] ** 2))))));
+const form = document.querySelector(".calc");
+function factor(el) { return el.tagName === "SELECT" ? +el.value : +el.dataset.f; }
+function fmt(x) {
+  if (!isFinite(x)) return "—";
+  const s = Math.abs(x) >= 1e6 || (Math.abs(x) < 1e-4 && x !== 0) ? x.toExponential(4) : (+x.toPrecision(6)).toString();
+  return s.replace("e+", "e");
+}
+function run() {
+  const a = [...form.querySelectorAll("label .in")].map(r => parseFloat(r.querySelector("input").value.replace(",", ".")) * factor(r.lastElementChild));
+  form.querySelector("output").textContent = a.some(isNaN) ? "—" : fmt(f(a) / factor(form.querySelector(".result").lastElementChild));
+}
+form.addEventListener("input", run);
+run();
+</script>
+</body>
+</html>
